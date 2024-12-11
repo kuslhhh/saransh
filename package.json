@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
+    "framer-motion": "^11.13.5",
+    "gasp": "^0.0.2",
+    "gsap": "^3.12.5",
     "next": "15.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

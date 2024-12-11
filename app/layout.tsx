@@ -1,6 +1,6 @@
 import { Space_Mono } from "next/font/google";
 import "./globals.css";
-// import Footer from "@/components/shared/Footer";
+import Footer from "@/components/footer";
 import { Suspense } from "react";
 import Loading from "./loading";
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       >
         <Suspense fallback={<Loading />}>
           {children}
-          {/* <Footer /> */}
+          <Footer />
         </Suspense>
       </body>
     </html>
