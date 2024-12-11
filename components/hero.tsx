@@ -1,48 +1,43 @@
 "use client";
-
-import gsap from "gsap";
-import React, { useEffect, useRef } from "react";
 import styles from "../app/page.module.css";
+import gsap from "gsap";
+import { useEffect, useRef } from "react";
 
 const Hero = () => {
   const firstText = useRef(null);
+
   const secondText = useRef(null);
 
   let xPercent = 0;
-  const direction = -1;
-  let animationFrameId: number; 
+  let direction = -1;
 
   useEffect(() => {
-    const animate = () => {
-      xPercent += 0.030  * direction;
-
-      if (xPercent < -100) {
-        xPercent = 0;
-      } else if (xPercent > 0) {
-        xPercent = -100;
-      }
-
-      gsap.to(firstText.current, { xPercent, duration: 0.1, ease: "none" });
-      gsap.to(secondText.current, { xPercent, duration: 0.1, ease: "none" });
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId); 
-    };
+    requestAnimationFrame(animate);
   }, []);
 
+  const animate = () => {
+    if (xPercent < -100) {
+      xPercent = 0;
+    } else if (xPercent > 0) {
+      xPercent = -100;
+    }
+
+    gsap.set(firstText.current, { xPercent: xPercent });
+
+    gsap.set(secondText.current, { xPercent: xPercent });
+
+    requestAnimationFrame(animate);
+
+    xPercent += 0.01 * direction;
+  };
   return (
     <div className="main my-auto">
       <div className={styles.sliderContainer}>
-        <div className={`${styles.slider} text-6xl md:text-8xl flex`}>
-          <p ref={firstText} className="my-auto whitespace-nowrap">
+        <div className={`${styles.slider} text-6xl md:text-8xl`}>
+          <p ref={firstText} className="my-auto">
             Your Gateway to Article Summarization.
           </p>
-          <p ref={secondText} className="my-auto whitespace-nowrap">
+          <p ref={secondText} className="my-auto">
             Your Gateway to Article Summarization.
           </p>
         </div>
