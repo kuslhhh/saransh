@@ -1,15 +1,18 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLazyGetSummaryQuery } from "@/utils/services/article";
 import Loading from "../app/loading";
 import { motion } from "framer-motion";
 
+// Define types for article and articles state
+interface Article {
+  url: string;
+  summary: string;
+}
+
 const Search = () => {
-  const [article, setArticle] = useState({
-    url: "",
-    summary: "",
-  });
-  const [allArticles, setAllArticles] = useState([]);
+  const [article, setArticle] = useState<Article>({ url: "", summary: "" });
+  const [allArticles, setAllArticles] = useState<Article[]>([]);
 
   // RTK lazy query
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
@@ -24,7 +27,8 @@ const Search = () => {
     }
   }, []);
 
-  const handleSubmit = async (e) => {
+  // Submit handler
+  const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const existingArticle = allArticles.find(
@@ -49,7 +53,7 @@ const Search = () => {
     } catch (err) {
       console.error("Error fetching summary:", err);
     }
-  };
+  }, [allArticles, article.url, getSummary]);
 
   return (
     <section className="wrapper grid grid-cols-1 lg:grid-cols-2 gap-8 my-auto min-h-[52vh]">
@@ -161,9 +165,7 @@ const Search = () => {
                   </div>
                   <p
                     className={`text-base md:text-lg ${
-                      readMore
-                        ? "text-background"
-                        : "text-primary line-clamp-6"
+                      readMore ? "text-background" : "text-primary line-clamp-6"
                     }`}
                   >
                     {article.summary}
