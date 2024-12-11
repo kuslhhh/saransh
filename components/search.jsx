@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useLazyGetSummaryQuery } from "@/utils/services/article";
-import Loading from "../../app/loading";
+import Loading from "../app/loading";
 import { motion } from "framer-motion";
 
 const Search = () => {
