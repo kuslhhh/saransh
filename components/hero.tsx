@@ -9,7 +9,7 @@ const Hero = () => {
   const secondText = useRef(null);
 
   let xPercent = 0;
-  let direction = -1;
+  const direction = -1;
 
   useEffect(() => {
     requestAnimationFrame(animate);
