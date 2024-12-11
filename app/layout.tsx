@@ -1,8 +1,8 @@
 import { Space_Mono } from "next/font/google";
 import "./globals.css";
 // import Footer from "@/components/shared/Footer";
-// import { Suspense } from "react";
-// import Loading from "./loading";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -34,10 +34,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${spaceMono.className} bg-background justify-evenly min-h-screen flex flex-col`}
       >
+        <Suspense fallback={<Loading />}>
           {children}
-        {/* <Suspense fallback={<Loading />}>
-          <Footer />
-        </Suspense> */}
+          {/* <Footer /> */}
+        </Suspense>
       </body>
     </html>
   );
