@@ -1,25 +1,30 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import { useLazyGetSummaryQuery } from "@/utils/services/article";
 import Loading from "../app/loading";
 import { motion } from "framer-motion";
 
-const Search = () => {
-  const [article, setArticle] = useState({
+interface Article {
+  url: string;
+  summary: string;
+}
+
+const Search: React.FC = () => {
+  const [article, setArticle] = useState<Article>({
     url: "",
     summary: "",
   });
-  const [allArticles, setAllArticles] = useState([]);
+  const [allArticles, setAllArticles] = useState<Article[]>([]);
 
   // RTK lazy query
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
-  const [readMore, setReadMore] = useState(false);
+  const [readMore, setReadMore] = useState<boolean>(false);
 
   // Load data from localStorage on mount
   useEffect(() => {
     const articlesFromLocalStorage = JSON.parse(
-      localStorage.getItem("articles")
+      localStorage.getItem("articles") || "[]"
     );
 
     if (articlesFromLocalStorage) {
@@ -27,7 +32,7 @@ const Search = () => {
     }
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const existingArticle = allArticles.find(
@@ -47,6 +52,7 @@ const Search = () => {
       localStorage.setItem("articles", JSON.stringify(updatedAllArticles));
     }
   };
+
   return (
     <section className="wrapper grid grid-cols-1 lg:grid-cols-2 gap-8 my-auto min-h-[52vh]">
       <div className="flex flex-col gap-8">
