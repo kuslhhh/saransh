@@ -1,5 +1,4 @@
-"use client";
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect } from "react";
 import { useLazyGetSummaryQuery } from "@/utils/services/article";
 import Loading from "../app/loading";
 import { motion } from "framer-motion";
@@ -15,24 +14,20 @@ const Search: React.FC = () => {
     summary: "",
   });
   const [allArticles, setAllArticles] = useState<Article[]>([]);
+  const [readMore, setReadMore] = useState(false);
 
   // RTK lazy query
   const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
-  const [readMore, setReadMore] = useState<boolean>(false);
-
   // Load data from localStorage on mount
   useEffect(() => {
-    const articlesFromLocalStorage = JSON.parse(
-      localStorage.getItem("articles") || "[]"
-    );
-
+    const articlesFromLocalStorage = localStorage.getItem("articles");
     if (articlesFromLocalStorage) {
-      setAllArticles(articlesFromLocalStorage);
+      setAllArticles(JSON.parse(articlesFromLocalStorage));
     }
   }, []);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const existingArticle = allArticles.find(
@@ -43,7 +38,7 @@ const Search: React.FC = () => {
 
     const { data } = await getSummary({ articleUrl: article.url });
     if (data?.summary) {
-      const newArticle = { ...article, summary: data.summary };
+      const newArticle: Article = { ...article, summary: data.summary };
       const updatedAllArticles = [newArticle, ...allArticles];
 
       // update state and local storage
@@ -124,7 +119,12 @@ const Search: React.FC = () => {
         ) : error ? (
           <p>
             Oops, We Ran Into An Error! <br />
-            <span>Reason: {error?.data?.error}</span>
+            <span>
+              Reason:{" "}
+              {"data" in error
+                ? (error.data as { error: string }).error
+                : "Unknown error"}
+            </span>
           </p>
         ) : (
           article.summary && (
