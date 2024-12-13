@@ -28,7 +28,7 @@ const Hero = () => {
 
     requestAnimationFrame(animate);
 
-    xPercent += 0.01 * direction;
+    xPercent += 0.1 * direction;
   };
   return (
     <div className="main my-auto">
