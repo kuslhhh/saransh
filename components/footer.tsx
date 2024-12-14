@@ -32,7 +32,7 @@ const Footer = () => {
           href="/"
           className="text-foreground my-auto font-medium underline hover:underline-offset-4"
         >
-          KSH Summarizer
+          KSH Saransh
         </Link>
         <p className="text-primary/80 my-auto cursor-default font-medium">
           Developed by Kushal

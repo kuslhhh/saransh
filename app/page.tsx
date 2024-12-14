@@ -14,7 +14,7 @@ export default function Home() {
           <p className="text-xl md:text-3xl text-primary/80">
             Enhance your reading experience with {" "}
             <span className="underline text-foreground/80 hover:underline-offset-4">
-              KSH
+              Saransh
             </span>
             , an innovative open-source article summarizer
           </p>
